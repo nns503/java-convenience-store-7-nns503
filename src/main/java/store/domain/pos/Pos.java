@@ -16,4 +16,19 @@ public class Pos {
     public Pos(List<PosBuyingProduct> buyingProducts) {
         this.buyingProducts = buyingProducts;
     }
+
+    public int getApplyStockIndex() {
+        return applyStockIndex;
+    }
+
+    public void moveIndex() {
+        applyStockIndex++;
+        if (applyStockIndex == buyingProducts.size()) {
+            applyStockIndex = -1;
+        }
+    }
+
+    public PosBuyingProduct getBuyingProduct(int index) {
+        return buyingProducts.get(index);
+    }
 }

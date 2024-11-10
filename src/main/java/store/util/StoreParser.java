@@ -10,7 +10,7 @@ public class StoreParser {
     private StoreParser(){
     }
 
-    private static final String BUYING_PRODUCT_FORMAT = "^[가-힣a-zA-Z0-9]+-\\d+$\n";
+    private static final String BUYING_PRODUCT_FORMAT = "^[가-힣a-zA-Z0-9]+-\\d+$";
     private static final String PARSING_PRODUCT_AND_QUANTITY = "-";
     private static final String DELIMITERS = ",";
 
@@ -37,6 +37,7 @@ public class StoreParser {
 
     private static void validateBuyingFormat(String parsingWord) {
         if (!parsingWord.matches(BUYING_PRODUCT_FORMAT)) {
+            System.out.println(parsingWord);
             throw new IllegalArgumentException("구매 입력 형식에 맞지 않습니다.");
         }
     }

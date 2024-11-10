@@ -63,4 +63,8 @@ public class Product {
     public int getPromotionQuantity() {
         return promotionQuantity;
     }
+
+    public boolean isPromotion(){
+        return promotion != null;
+    }
 }

@@ -1,13 +1,31 @@
 package store.domain.pos;
 
+import store.domain.product.Product;
+
 public class PosBuyingProduct {
     private String name;
     private int quantity;
-    private int amount;
+    private Product product;
 
-    public PosBuyingProduct(String name, int quantity, int amount) {
+    public PosBuyingProduct(String name, int quantity, Product product) {
         this.name = name;
         this.quantity = quantity;
-        this.amount = amount;
+        this. product = product;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void updateQuantity(int quantity) {
+        this.quantity += quantity;
     }
 }

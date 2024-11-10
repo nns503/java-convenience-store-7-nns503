@@ -61,6 +61,14 @@ class ApplicationTest extends NsTest {
         });
     }
 
+    @Test
+    void 보너스_출력() {
+        assertSimpleTest(() -> {
+            run("[오렌지주스-1]", "Y", "N");
+            assertThat(output().replaceAll("\\s", "")).contains("무료로 더 받을 수 있습니다.");
+        });
+    }
+
     @Override
     public void runMain() {
         Application.main(new String[]{});
