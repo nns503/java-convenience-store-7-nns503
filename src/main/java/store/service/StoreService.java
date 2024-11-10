@@ -9,6 +9,7 @@ import store.dto.BuyingProductDTO;
 import store.dto.request.BuyingProductRequest;
 import store.dto.response.ApplyPromotionResponse;
 import store.dto.response.GetProductListResponse;
+import store.dto.response.LackPromotionResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class StoreService {
         Pos pos = posContext.getPos();
         while(pos.getApplyStockIndex() != -1){
             int index = pos.getApplyStockIndex();
-            pos.moveIndex();
+            pos.moveApplyStockIndex();
             PosBuyingProduct buyingData = pos.getBuyingProduct(index);
             Product product = buyingData.getProduct();
             if(product.isPromotion()){
@@ -57,6 +58,33 @@ public class StoreService {
         Pos pos = posContext.getPos();
         PosBuyingProduct updatedProduct = pos.getBuyingProduct(index);
         updatedProduct.updateQuantity(quantity);
+    }
 
+    public LackPromotionResponse lackPromotion(){
+        Pos pos = posContext.getPos();
+        while(pos.getLackStockIndex() != -1){
+            int index = pos.getLackStockIndex();
+            pos.moveLackStockIndex();
+            PosBuyingProduct buyingData = pos.getBuyingProduct(index);
+            Product product = buyingData.getProduct();
+            if(product.isPromotion()){
+                int bonusQuantity = product.getPromotion().getBonusQuantity();
+                int buyQuantity = product.getPromotion().getBuyQuantity();
+                int promotionQuantity = product.getPromotionQuantity();
+                int buyingQuantity = buyingData.getQuantity();
+                int remainingQuantity = buyingQuantity % (buyQuantity + bonusQuantity);
+                int excessQuantity = buyingQuantity - promotionQuantity;
+                if(remainingQuantity + excessQuantity > 0){
+                    return LackPromotionResponse.of(index, buyingData.getName(), remainingQuantity + excessQuantity);
+                }
+            }
+        }
+        return LackPromotionResponse.of(pos.getApplyStockIndex(), null, 0);
+    }
+
+    public void minusProduct(int index, int quantity){
+        Pos pos = posContext.getPos();
+        PosBuyingProduct updatedProduct = pos.getBuyingProduct(index);
+        updatedProduct.updateQuantity(-quantity);
     }
 }

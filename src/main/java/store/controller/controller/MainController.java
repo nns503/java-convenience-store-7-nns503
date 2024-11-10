@@ -3,8 +3,10 @@ package store.controller.controller;
 import store.dto.BuyingProductDTO;
 import store.dto.request.AddProductRequest;
 import store.dto.request.BuyingProductRequest;
+import store.dto.request.MinusProductRequest;
 import store.dto.response.ApplyPromotionResponse;
 import store.dto.response.GetProductListResponse;
+import store.dto.response.LackPromotionResponse;
 import store.service.StoreService;
 import store.util.StoreParser;
 import store.view.InputView;
@@ -22,6 +24,7 @@ public class MainController {
         printProductList();
         process(this::buy);
         process(this::applyPromotion);
+        process(this::lackPromotion);
     }
 
     private void printProductList() {
@@ -42,6 +45,16 @@ public class MainController {
             OutputView.printApplyBonusProduct(response.name(), response.quantity());
             boolean input = process(this::inputYorN);
             if(input) storeController.addProduct(AddProductRequest.of(response.index(), response.quantity()));
+        }
+    }
+
+    private void lackPromotion(){
+        while(true){
+            LackPromotionResponse response = storeController.lackPromotion();
+            if(response.index() == -1) break;
+            OutputView.printLackBonusProduct(response.name(), response.quantity());
+            boolean input = process(this::inputYorN);
+            if(input) storeController.minusProduct(MinusProductRequest.of(response.index(), response.quantity()));
         }
     }
 

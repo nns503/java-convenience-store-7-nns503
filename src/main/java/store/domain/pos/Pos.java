@@ -21,10 +21,21 @@ public class Pos {
         return applyStockIndex;
     }
 
-    public void moveIndex() {
+    public void moveApplyStockIndex() {
         applyStockIndex++;
         if (applyStockIndex == buyingProducts.size()) {
             applyStockIndex = -1;
+        }
+    }
+
+    public int getLackStockIndex() {
+        return lackStockIndex;
+    }
+
+    public void moveLackStockIndex() {
+        lackStockIndex++;
+        if (lackStockIndex == buyingProducts.size()) {
+            lackStockIndex = -1;
         }
     }
 
