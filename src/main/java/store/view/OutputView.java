@@ -13,7 +13,7 @@ public class OutputView {
     }
 
     public static void printException(String message){
-        System.out.println(Formatter.formatToErrorMessage(message));
+        System.out.printf("%s 다시 입력해주세요.", Formatter.formatToErrorMessage(message));
     }
 
     public static void printProductList(List<ProductDTO> products){

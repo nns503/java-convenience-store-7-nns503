@@ -19,7 +19,15 @@ public enum ProductRepository {
     }
 
     public Product getProductByName(String name) {
+        Product product = products.get(name);
+        validateNoSuchProduct(product);
         return products.get(name);
+    }
+
+    private void validateNoSuchProduct(Product product) {
+        if(product == null) {
+            throw new IllegalArgumentException("존재하지 않는 상품입니다.");
+        }
     }
 
     public List<Product> getAllProducts() {
