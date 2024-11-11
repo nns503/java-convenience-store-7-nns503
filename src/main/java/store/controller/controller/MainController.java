@@ -34,10 +34,10 @@ public class MainController {
     private void play() {
         printProductList();
         process(this::buy);
-        process(this::applyPromotion);
-        process(this::lackPromotion);
+        applyPromotion();
+        lackPromotion();
         calculateProduct();
-        process(this::applyMembership);
+        applyMembership();
         result();
     }
 
@@ -71,8 +71,9 @@ public class MainController {
     }
 
     private void addProduct(ApplyPromotionResponse response) {
-        if (process(this::inputYorN))
+        if (process(this::inputYorN)) {
             posController.addProduct(AddProductRequest.of(response.index(), response.quantity()));
+        }
     }
 
     private void lackPromotion() {
@@ -85,8 +86,9 @@ public class MainController {
     }
 
     private void minusProduct(LackPromotionResponse response) {
-        if (!process(this::inputYorN))
+        if (!process(this::inputYorN)) {
             posController.minusProduct(MinusProductRequest.of(response.index(), response.quantity()));
+        }
     }
 
     private void calculateProduct() {
@@ -94,7 +96,9 @@ public class MainController {
     }
 
     private void applyMembership() {
-        if (process(this::inputYorN)) posController.useMembership();
+        if (process(this::inputYorN)) {
+            posController.useMembership();
+        }
     }
 
     private void result() {
@@ -110,7 +114,7 @@ public class MainController {
 
     private void validateYorN(String input) {
         if (!(input.equals("Y") || input.equals("N"))) {
-            throw new IllegalArgumentException("Y/N 중 하나를 입력해주세요");
+            throw new IllegalArgumentException("Y/N 중 하나를 입력해주세요.");
         }
     }
 
