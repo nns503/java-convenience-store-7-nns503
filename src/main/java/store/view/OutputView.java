@@ -65,22 +65,31 @@ public class OutputView {
 
     public static void printReceipt(List<PurchaseDetailDTO> purchaseDetails, List<PresentationProductDTO> presentationProducts, AmountDTO amounts) {
         System.out.println("==============W 편의점================");
-        System.out.printf("%-20s%-20s%-15s\n", "상품명", "수량", "금액");
+        printPurchaseDetails(purchaseDetails);
+        printPresentationProducts(presentationProducts);
+        printAmounts(amounts);
+    }
 
+    private static void printPurchaseDetails(List<PurchaseDetailDTO> purchaseDetails) {
+        System.out.printf("%-20s%-20s%-15s\n", "상품명", "수량", "금액");
         purchaseDetails.forEach(detail ->
                 System.out.printf("%-20s%20d%15s\n",
                         detail.name(),
                         detail.quantity(),
                         formatToCurrency(detail.amount()))
         );
+    }
 
+    private static void printPresentationProducts(List<PresentationProductDTO> presentationProducts) {
         System.out.println("==============증  정==================");
         presentationProducts.forEach(product ->
                 System.out.printf("%-20s%20d\n",
                         product.name(),
                         product.quantity())
         );
+    }
 
+    private static void printAmounts(AmountDTO amounts) {
         System.out.println("====================================");
         System.out.printf("%-20s%20d%15s\n", "총구매액", amounts.totalQuantity(), formatToCurrency(amounts.totalAmount()));
         System.out.printf("%-20s%35s\n", "행사할인", formatToCurrency(-amounts.promotionDiscount()));
