@@ -4,8 +4,6 @@ import store.dto.AmountDTO;
 import store.dto.PresentationProductDTO;
 import store.dto.ProductDTO;
 import store.dto.PurchaseDetailDTO;
-import store.dto.response.GetReceiptResponse;
-import store.util.Formatter;
 import store.util.Parser;
 
 import java.util.List;
@@ -67,19 +65,27 @@ public class OutputView {
 
     public static void printReceipt(List<PurchaseDetailDTO> purchaseDetails, List<PresentationProductDTO> presentationProducts, AmountDTO amounts) {
         System.out.println("==============W 편의점================");
-        System.out.println("상품명\t\t\t\t\t\t수량\t\t\t금액\t");
-        purchaseDetails.forEach(detail ->{
-            System.out.printf("%s\t\t\t\t%s\t\t%s\n", detail.name(), detail.quantity(), formatToCurrency(detail.amount()));
+        System.out.printf("%-20s%-20s%-15s\n", "상품명", "수량", "금액");
+
+        purchaseDetails.forEach(detail -> {
+            System.out.printf("%-20s%20d%15s\n",
+                    detail.name(),
+                    detail.quantity(),
+                    formatToCurrency(detail.amount()));
         });
-        System.out.println("=============증\t정===============");
-        presentationProducts.forEach(product->{
-            System.out.printf("%s\t\t\t\t%s\n", product.name(), product.quantity());
+
+        System.out.println("==============증  정==================");
+        presentationProducts.forEach(product -> {
+            System.out.printf("%-20s%20d\n",
+                    product.name(),
+                    product.quantity());
         });
+
         System.out.println("====================================");
-        System.out.printf("총구매액\t\t\t\t%d\t\t\t%s\n", amounts.totalQuantity(), formatToCurrency(amounts.totalAmount()));
-        System.out.printf("행사할인\t\t\t\t\t\t\t%s\n", formatToCurrency(amounts.promotionDiscount()));
-        System.out.printf("멤버십할인\t\t\t\t\t\t\t%s\n", formatToCurrency(amounts.membershipDiscount()));
-        System.out.printf("내실돈\t\t\t\t\t\t\t%s\n", formatToCurrency(amounts.resultAmount()));
+        System.out.printf("%-20s%20d%15s\n", "총구매액", amounts.totalQuantity(), formatToCurrency(amounts.totalAmount()));
+        System.out.printf("%-20s%35s\n", "행사할인", formatToCurrency(-amounts.promotionDiscount()));
+        System.out.printf("%-20s%35s\n", "멤버십할인", formatToCurrency(-amounts.membershipDiscount()));
+        System.out.printf("%-20s%35s\n", "내실돈", formatToCurrency(amounts.resultAmount()));
     }
 
     public static void printAdditionalBuying(){

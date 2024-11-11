@@ -10,7 +10,7 @@ public class Pos {
 
     private final static int MAX_MEMBERSHIP_DISCOUNT = 8_000;
     private final static double MEMBERSHIP_DISCOUNT_PERCENT = 0.3;
-    private final List<PosBuyingProduct> purchaseProducts;
+    private final List<PosPurchaseProduct> purchaseProducts;
     private final List<PosBonusProduct> bonusProducts = new ArrayList<>();
     private int allAmount;
     private int promotionAmount;
@@ -21,7 +21,7 @@ public class Pos {
     private int lackStockIndex;
 
 
-    public Pos(List<PosBuyingProduct> purchaseProducts) {
+    public Pos(List<PosPurchaseProduct> purchaseProducts) {
         this.purchaseProducts = purchaseProducts;
     }
 
@@ -49,13 +49,7 @@ public class Pos {
 
     public int getPurchaseQuantity(){
         return purchaseProducts.stream()
-                .mapToInt(PosBuyingProduct::getQuantity)
-                .sum();
-    }
-
-    public int getBonusQuantity(){
-        return bonusProducts.stream()
-                .mapToInt(PosBonusProduct::getBonusQuantity)
+                .mapToInt(PosPurchaseProduct::getQuantity)
                 .sum();
     }
 
@@ -75,7 +69,7 @@ public class Pos {
         return resultAmount;
     }
 
-    public List<PosBuyingProduct> getAllBuyingProduct() {
+    public List<PosPurchaseProduct> getAllBuyingProduct() {
         return purchaseProducts;
     }
 
@@ -83,14 +77,12 @@ public class Pos {
         return bonusProducts;
     }
 
-    public PosBuyingProduct getBuyingProduct(int index) {
+    public PosPurchaseProduct getPurchaseProduct(int index) {
         return purchaseProducts.get(index);
     }
 
     public void calculateAllAmount() {
-        purchaseProducts.forEach(buy->{
-            allAmount += buy.getProduct().getPrice() * buy.getQuantity();
-        });
+        purchaseProducts.forEach(buy-> allAmount += buy.getProduct().getPrice() * buy.getQuantity());
     }
 
     private void setBonusProducts(){
@@ -100,16 +92,14 @@ public class Pos {
                 int bonus = Math.min(buy.getQuantity() / (promotion.getBuyQuantity() + promotion.getBonusQuantity()),
                         buy.getProduct().getPromotionQuantity() / (promotion.getBuyQuantity() + promotion.getBonusQuantity()));
                 bonusProducts.add(new PosBonusProduct(buy.getName(), bonus, buy.getProduct()));
-                promotionAmount += promotion.getPromotionQuantity() * buy.getProduct().getPrice() * bonus;
+                promotionAmount += promotion.getPromotionBundle() * buy.getProduct().getPrice() * bonus;
             }
         });
     }
 
     public void calculatePromotionAmount() {
         setBonusProducts();
-        bonusProducts.forEach(bonus -> {
-            promotionDiscount += bonus.getProduct().getPrice() * bonus.getBonusQuantity();
-        });
+        bonusProducts.forEach(bonus -> promotionDiscount += bonus.getProduct().getPrice() * bonus.getBonusQuantity());
     }
 
     public void updateMembershipAmount() {

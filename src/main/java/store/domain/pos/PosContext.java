@@ -1,6 +1,7 @@
 package store.domain.pos;
 
-public class PosContext {
+public enum PosContext {
+    INSTANCE;
 
     private Pos pos;
 

@@ -3,15 +3,14 @@ package store.domain.promotion;
 import camp.nextstep.edu.missionutils.DateTimes;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Promotion {
 
-    private String name;
-    private int buyQuantity;
-    private int bonusQuantity;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private final String name;
+    private final int buyQuantity;
+    private final int bonusQuantity;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
 
     public Promotion(String name, int buyQuantity, int bonusQuantity, LocalDate startDate, LocalDate endDate) {
         this.name = name;
@@ -33,7 +32,7 @@ public class Promotion {
         return bonusQuantity;
     }
 
-    public int getPromotionQuantity(){
+    public int getPromotionBundle(){
         return buyQuantity + bonusQuantity;
     }
 
