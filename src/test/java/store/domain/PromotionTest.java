@@ -1,6 +1,6 @@
 package store.domain;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import store.domain.promotion.Promotion;
 import store.domain.promotion.PromotionRepository;
@@ -13,10 +13,10 @@ import static store.fixture.PromotionFixture.탄산투플원;
 
 public class PromotionTest {
 
-    private final PromotionRepository promotionRepository = PromotionRepository.INSTANCE;
+    private static final PromotionRepository promotionRepository = PromotionRepository.INSTANCE;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUpAll() {
         promotionRepository.clear();
         promotionRepository.save(탄산투플원);
     }
