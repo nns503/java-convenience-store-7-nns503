@@ -1,8 +1,9 @@
 package store.controller.controller;
 
-import store.dto.request.BuyingProductRequest;
+import store.dto.response.ApplyPromotionResponse;
 import store.dto.response.GetProductListResponse;
 import store.dto.response.GetReceiptResponse;
+import store.dto.response.LackPromotionResponse;
 import store.service.StoreService;
 
 public class StoreController {
@@ -17,8 +18,12 @@ public class StoreController {
         return storeService.getProductList();
     }
 
-    public void buyProduct(BuyingProductRequest request) {
-        storeService.buyProduct(request);
+    public ApplyPromotionResponse applyPromotion() {
+        return storeService.applyPromotion();
+    }
+
+    public LackPromotionResponse lackPromotion() {
+        return storeService.lackPromotion();
     }
 
     public GetReceiptResponse getReceipt() {

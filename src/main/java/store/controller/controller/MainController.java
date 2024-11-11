@@ -53,12 +53,12 @@ public class MainController {
     private void buy() {
         OutputView.printBuyProducts();
         List<BuyingProductDTO> buyingProductDTOs = StoreParser.parseBuyProductRequest(InputView.readUserInput());
-        storeController.buyProduct(BuyingProductRequest.from(buyingProductDTOs));
+        posController.buyProduct(BuyingProductRequest.from(buyingProductDTOs));
     }
 
     private void applyPromotion() {
         while (true) {
-            ApplyPromotionResponse response = posController.applyPromotion();
+            ApplyPromotionResponse response = storeController.applyPromotion();
             if (checkLastIndex(response.index())) break;
             OutputView.printApplyBonusProduct(response.name(), response.quantity());
             addProduct(response);
@@ -76,7 +76,7 @@ public class MainController {
 
     private void lackPromotion() {
         while (true) {
-            LackPromotionResponse response = posController.lackPromotion();
+            LackPromotionResponse response = storeController.lackPromotion();
             if (checkLastIndex(response.index())) break;
             OutputView.printLackBonusProduct(response.name(), response.quantity());
             minusProduct(response);

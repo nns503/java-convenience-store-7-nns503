@@ -1,9 +1,8 @@
 package store.controller.controller;
 
 import store.dto.request.AddProductRequest;
+import store.dto.request.BuyingProductRequest;
 import store.dto.request.MinusProductRequest;
-import store.dto.response.ApplyPromotionResponse;
-import store.dto.response.LackPromotionResponse;
 import store.service.PosService;
 
 public class PosController {
@@ -14,17 +13,14 @@ public class PosController {
         this.posService = posService;
     }
 
-    public ApplyPromotionResponse applyPromotion() {
-        return posService.applyPromotion();
+    public void buyProduct(BuyingProductRequest request) {
+        posService.buyProduct(request);
     }
 
     public void addProduct(AddProductRequest request) {
         posService.addProduct(request.index(), request.quantity());
     }
 
-    public LackPromotionResponse lackPromotion() {
-        return posService.lackPromotion();
-    }
 
     public void minusProduct(MinusProductRequest request) {
         posService.minusProduct(request.index(), request.quantity());

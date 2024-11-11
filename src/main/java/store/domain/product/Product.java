@@ -58,7 +58,7 @@ public class Product {
         promotionQuantity += updatingProduct.getPromotionQuantity();
     }
 
-    public void checkBuyingQuantity(int buyingQuantity) {
+    public void checkPurchaseQuantity(int buyingQuantity) {
         if (buyingQuantity > quantity + promotionQuantity) {
             throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다.");
         }
