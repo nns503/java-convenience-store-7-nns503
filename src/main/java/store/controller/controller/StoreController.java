@@ -1,5 +1,6 @@
 package store.controller.controller;
 
+import store.dto.response.GetReceiptResponse;
 import store.dto.request.AddProductRequest;
 import store.dto.request.BuyingProductRequest;
 import store.dto.request.MinusProductRequest;
@@ -46,5 +47,9 @@ public class StoreController {
 
     public void useMembership() {
         storeService.userMembership();
+    }
+
+    public GetReceiptResponse getReceipt() {
+        return storeService.getReceipt();
     }
 }

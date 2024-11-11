@@ -6,6 +6,7 @@ import store.dto.request.BuyingProductRequest;
 import store.dto.request.MinusProductRequest;
 import store.dto.response.ApplyPromotionResponse;
 import store.dto.response.GetProductListResponse;
+import store.dto.response.GetReceiptResponse;
 import store.dto.response.LackPromotionResponse;
 import store.service.StoreService;
 import store.util.StoreParser;
@@ -21,12 +22,24 @@ public class MainController {
     private final StoreController storeController = new StoreController(storeService);
 
     public void start(){
+        do {
+            playStore();
+        } while (additionalBuying());
+    }
+
+    private void playStore() {
         printProductList();
         process(this::buy);
         process(this::applyPromotion);
         process(this::lackPromotion);
         calculateAmount();
         process(this::membership);
+        result();
+    }
+
+    private boolean additionalBuying() {
+        OutputView.printAdditionalBuying();
+        return process(this::inputYorN);
     }
 
     private void printProductList() {
@@ -67,6 +80,11 @@ public class MainController {
     private void membership(){
         boolean input = process(this::inputYorN);
         if(input) storeController.useMembership();
+    }
+
+    private void result(){
+        GetReceiptResponse response = storeController.getReceipt();
+        OutputView.printReceipt(response.purchaseDetails(), response.presentationProducts(), response.amounts());
     }
 
     private Boolean inputYorN() {

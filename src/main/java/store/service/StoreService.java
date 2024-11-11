@@ -9,6 +9,7 @@ import store.dto.BuyingProductDTO;
 import store.dto.request.BuyingProductRequest;
 import store.dto.response.ApplyPromotionResponse;
 import store.dto.response.GetProductListResponse;
+import store.dto.response.GetReceiptResponse;
 import store.dto.response.LackPromotionResponse;
 
 import java.util.ArrayList;
@@ -98,5 +99,11 @@ public class StoreService {
     public void userMembership() {
         Pos pos = posContext.getPos();
         pos.updateMemberShipAmount();
+    }
+
+    public GetReceiptResponse getReceipt() {
+        Pos pos = posContext.getPos();
+        pos.calculateResult();
+        return GetReceiptResponse.from(pos);
     }
 }

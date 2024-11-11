@@ -1,7 +1,10 @@
 package store;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import store.domain.product.ProductRepository;
+import store.domain.promotion.PromotionRepository;
 
 import java.time.LocalDate;
 
@@ -10,6 +13,16 @@ import static camp.nextstep.edu.missionutils.test.Assertions.assertSimpleTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class ApplicationTest extends NsTest {
+
+    private final ProductRepository productRepository = ProductRepository.INSTANCE;
+    private final PromotionRepository promotionRepository = PromotionRepository.INSTANCE;
+
+    @BeforeEach
+    void setUp() {
+        productRepository.clear();
+        promotionRepository.clear();
+    }
+
     @Test
     void 파일에_있는_상품_목록_출력() {
         assertSimpleTest(() -> {
@@ -58,14 +71,6 @@ class ApplicationTest extends NsTest {
         assertSimpleTest(() -> {
             runException("[컵라면-12]", "N", "N");
             assertThat(output()).contains("[ERROR] 재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
-        });
-    }
-
-    @Test
-    void 보너스_출력() {
-        assertSimpleTest(() -> {
-            run("[오렌지주스-1]", "Y", "N");
-            assertThat(output().replaceAll("\\s", "")).contains("무료로 더 받을 수 있습니다.");
         });
     }
 

@@ -1,11 +1,16 @@
 package store.view;
 
+import store.dto.AmountDTO;
+import store.dto.PresentationProductDTO;
 import store.dto.ProductDTO;
+import store.dto.PurchaseDetailDTO;
+import store.dto.response.GetReceiptResponse;
 import store.util.Formatter;
 import store.util.Parser;
 
 import java.util.List;
-import java.util.StringJoiner;
+
+import static store.util.Formatter.*;
 
 public class OutputView {
 
@@ -13,7 +18,7 @@ public class OutputView {
     }
 
     public static void printException(String message){
-        System.out.printf("%s 다시 입력해주세요.", Formatter.formatToErrorMessage(message));
+        System.out.printf("%s 다시 입력해 주세요.\n", formatToErrorMessage(message));
     }
 
     public static void printProductList(List<ProductDTO> products){
@@ -28,7 +33,7 @@ public class OutputView {
         if(product.promotionName() != null){
             System.out.printf("- %s %s원 %s %s\n",
                     product.name(),
-                    Formatter.formatToCurrency(product.price()),
+                    formatToCurrency(product.price()),
                     printQuantity(product.promotionQuantity()),
                     product.promotionName());
         }
@@ -37,7 +42,7 @@ public class OutputView {
     private static void printNormalProduct(ProductDTO product) {
         System.out.printf("- %s %s원 %s\n",
                 product.name(),
-                Formatter.formatToCurrency(product.price()),
+                formatToCurrency(product.price()),
                 printQuantity(product.quantity()));
     }
 
@@ -58,5 +63,26 @@ public class OutputView {
 
     public static void printLackBonusProduct(String name, int quantity){
         System.out.printf("현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)\n", name, quantity);
+    }
+
+    public static void printReceipt(List<PurchaseDetailDTO> purchaseDetails, List<PresentationProductDTO> presentationProducts, AmountDTO amounts) {
+        System.out.println("==============W 편의점================");
+        System.out.println("상품명\t\t\t\t\t\t수량\t\t\t금액\t");
+        purchaseDetails.forEach(detail ->{
+            System.out.printf("%s\t\t\t\t%s\t\t%s\n", detail.name(), detail.quantity(), formatToCurrency(detail.amount()));
+        });
+        System.out.println("=============증\t정===============");
+        presentationProducts.forEach(product->{
+            System.out.printf("%s\t\t\t\t%s\n", product.name(), product.quantity());
+        });
+        System.out.println("====================================");
+        System.out.printf("총구매액\t\t\t\t%d\t\t\t%s\n", amounts.totalQuantity(), formatToCurrency(amounts.totalAmount()));
+        System.out.printf("행사할인\t\t\t\t\t\t\t%s\n", formatToCurrency(amounts.promotionDiscount()));
+        System.out.printf("멤버십할인\t\t\t\t\t\t\t%s\n", formatToCurrency(amounts.membershipDiscount()));
+        System.out.printf("내실돈\t\t\t\t\t\t\t%s\n", formatToCurrency(amounts.resultAmount()));
+    }
+
+    public static void printAdditionalBuying(){
+        System.out.println("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)");
     }
 }

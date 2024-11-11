@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pos {
-    private List<PosBuyingProduct> buyingProducts;
+    private List<PosBuyingProduct> purchaseProducts;
     private List<PosBonusProduct> bonusProducts;
     private int allAmount;
     private int promotionAmount;
@@ -16,8 +16,8 @@ public class Pos {
     private int lackStockIndex;
 
 
-    public Pos(List<PosBuyingProduct> buyingProducts) {
-        this.buyingProducts = buyingProducts;
+    public Pos(List<PosBuyingProduct> purchaseProducts) {
+        this.purchaseProducts = purchaseProducts;
         this.bonusProducts = new ArrayList<>();
     }
 
@@ -27,7 +27,7 @@ public class Pos {
 
     public void moveApplyStockIndex() {
         applyStockIndex++;
-        if (applyStockIndex == buyingProducts.size()) {
+        if (applyStockIndex == purchaseProducts.size()) {
             applyStockIndex = -1;
         }
     }
@@ -38,9 +38,15 @@ public class Pos {
 
     public void moveLackStockIndex() {
         lackStockIndex++;
-        if (lackStockIndex == buyingProducts.size()) {
+        if (lackStockIndex == purchaseProducts.size()) {
             lackStockIndex = -1;
         }
+    }
+
+    public int getPurchaseQuantity(){;
+       return purchaseProducts.stream()
+                .mapToInt(PosBuyingProduct::getQuantity)
+                .sum();
     }
 
     public int getAllAmount() {
@@ -60,7 +66,7 @@ public class Pos {
     }
 
     public List<PosBuyingProduct> getAllBuyingProduct() {
-        return buyingProducts;
+        return purchaseProducts;
     }
 
     public List<PosBonusProduct> getAllBonusProduct() {
@@ -68,17 +74,17 @@ public class Pos {
     }
 
     public PosBuyingProduct getBuyingProduct(int index) {
-        return buyingProducts.get(index);
+        return purchaseProducts.get(index);
     }
 
     public void calculateAllAmount() {
-        buyingProducts.forEach(buy->{
+        purchaseProducts.forEach(buy->{
             allAmount += buy.getProduct().getPrice() * buy.getQuantity();
         });
     }
 
     private void setBonusProducts(){
-        buyingProducts.forEach(buy->{
+        purchaseProducts.forEach(buy->{
             Promotion promotion = buy.getProduct().getPromotion();
             if(promotion != null && promotion.isPromotionPeriod()){
                 int bonus = Math.min(buy.getQuantity() / (promotion.getBuyQuantity() + promotion.getBonusQuantity()),
@@ -97,5 +103,9 @@ public class Pos {
 
     public void updateMemberShipAmount() {
         membershipAmount = Math.min((allAmount - promotionAmount) * 30 / 100, 8000);
+    }
+
+    public void calculateResult() {
+        resultAmount = allAmount - promotionAmount - membershipAmount;
     }
 }
