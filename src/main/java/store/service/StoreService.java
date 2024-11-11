@@ -25,18 +25,19 @@ public class StoreService {
             int index = pos.getApplyStockIndex();
             pos.moveApplyStockIndex();
             PosPurchaseProduct buyingData = pos.getPurchaseProduct(index);
-            Product product = buyingData.getProduct();
-            if (product.isPromotion()) {
-                int bonusQuantity = product.getPromotion().bonusQuantity();
-                int buyQuantity = product.getPromotion().buyQuantity();
-                int promotionQuantity = product.getPromotionQuantity();
-                int buyingQuantity = buyingData.getQuantity();
-                if (promotionQuantity > buyingQuantity && (buyingQuantity % (buyQuantity + bonusQuantity)) == buyingQuantity) {
-                    return ApplyPromotionResponse.of(index, buyingData.getName(), 1);
-                }
-            }
+            if (!buyingData.getProduct().isPromotion()) continue;
+            if (validateApplyPromotionStock(buyingData.getProduct(), buyingData)) continue;
+            return ApplyPromotionResponse.of(index, buyingData.getName(), 1);
         }
         return ApplyPromotionResponse.of(pos.getApplyStockIndex(), null, 0);
+    }
+
+    private boolean validateApplyPromotionStock(Product product, PosPurchaseProduct buyingData) {
+        int bonusQuantity = product.getPromotion().bonusQuantity();
+        int buyQuantity = product.getPromotion().buyQuantity();
+        int promotionQuantity = product.getPromotionQuantity();
+        int buyingQuantity = buyingData.getQuantity();
+        return promotionQuantity <= buyingQuantity || (buyingQuantity % (buyQuantity + bonusQuantity)) != buyingQuantity;
     }
 
     public LackPromotionResponse lackPromotion() {
@@ -45,15 +46,18 @@ public class StoreService {
             int index = pos.getLackStockIndex();
             pos.moveLackStockIndex();
             PosPurchaseProduct purchaseData = pos.getPurchaseProduct(index);
-            Product purchaseProduct = purchaseData.getProduct();
-            if (!purchaseProduct.isPromotion()) continue;
-            int remainingQuantity = purchaseData.getQuantity() % purchaseProduct.getPromotion().getPromotionBundle();
-            int excessQuantity = Math.max(0, purchaseData.getQuantity() - purchaseProduct.getPromotionQuantity());
-            if (remainingQuantity + excessQuantity <= 0) {
-                return LackPromotionResponse.of(index, purchaseData.getName(), remainingQuantity + excessQuantity);
-            }
+            if (!purchaseData.getProduct().isPromotion()) continue;
+            if (getLackStock(purchaseData) > 0) continue;
+            return LackPromotionResponse.of(index, purchaseData.getName(), getLackStock(purchaseData));
         }
         return LackPromotionResponse.of(pos.getApplyStockIndex(), null, 0);
+    }
+
+    private int getLackStock(PosPurchaseProduct purchaseData) {
+        Product purchaseProduct = purchaseData.getProduct();
+        int remainingQuantity = purchaseData.getQuantity() % purchaseProduct.getPromotion().getPromotionBundle();
+        int excessQuantity = Math.max(0, purchaseData.getQuantity() - purchaseProduct.getPromotionQuantity());
+        return remainingQuantity + excessQuantity;
     }
 
     public GetReceiptResponse getReceipt() {
