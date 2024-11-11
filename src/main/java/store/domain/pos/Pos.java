@@ -10,8 +10,8 @@ public class Pos {
 
     private final static int MAX_MEMBERSHIP_DISCOUNT = 8_000;
     private final static double MEMBERSHIP_DISCOUNT_PERCENT = 0.3;
-    private List<PosBuyingProduct> purchaseProducts;
-    private List<PosBonusProduct> bonusProducts;
+    private final List<PosBuyingProduct> purchaseProducts;
+    private final List<PosBonusProduct> bonusProducts = new ArrayList<>();
     private int allAmount;
     private int promotionAmount;
     private int promotionDiscount;
@@ -23,7 +23,6 @@ public class Pos {
 
     public Pos(List<PosBuyingProduct> purchaseProducts) {
         this.purchaseProducts = purchaseProducts;
-        this.bonusProducts = new ArrayList<>();
     }
 
     public int getApplyStockIndex() {
@@ -48,8 +47,8 @@ public class Pos {
         }
     }
 
-    public int getPurchaseQuantity(){;
-       return purchaseProducts.stream()
+    public int getPurchaseQuantity(){
+        return purchaseProducts.stream()
                 .mapToInt(PosBuyingProduct::getQuantity)
                 .sum();
     }
