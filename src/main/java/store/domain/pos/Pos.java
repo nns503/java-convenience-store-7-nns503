@@ -20,37 +20,16 @@ public class Pos {
     private int applyStockIndex;
     private int lackStockIndex;
 
-
     public Pos(List<PosPurchaseProduct> purchaseProducts) {
         this.purchaseProducts = purchaseProducts;
-    }
-
-    public int getApplyStockIndex() {
-        return applyStockIndex;
-    }
-
-    public void moveApplyStockIndex() {
-        applyStockIndex++;
-        if (applyStockIndex == purchaseProducts.size()) {
-            applyStockIndex = -1;
-        }
     }
 
     public int getLackStockIndex() {
         return lackStockIndex;
     }
 
-    public void moveLackStockIndex() {
-        lackStockIndex++;
-        if (lackStockIndex == purchaseProducts.size()) {
-            lackStockIndex = -1;
-        }
-    }
-
-    public int getPurchaseQuantity() {
-        return purchaseProducts.stream()
-                .mapToInt(PosPurchaseProduct::getQuantity)
-                .sum();
+    public int getApplyStockIndex() {
+        return applyStockIndex;
     }
 
     public int getAllAmount() {
@@ -79,6 +58,26 @@ public class Pos {
 
     public PosPurchaseProduct getPurchaseProduct(int index) {
         return purchaseProducts.get(index);
+    }
+
+    public int getPurchaseQuantity() {
+        return purchaseProducts.stream()
+                .mapToInt(PosPurchaseProduct::getQuantity)
+                .sum();
+    }
+
+    public void moveApplyStockIndex() {
+        applyStockIndex++;
+        if (applyStockIndex == purchaseProducts.size()) {
+            applyStockIndex = -1;
+        }
+    }
+
+    public void moveLackStockIndex() {
+        lackStockIndex++;
+        if (lackStockIndex == purchaseProducts.size()) {
+            lackStockIndex = -1;
+        }
     }
 
     public void calculateAllAmount() {

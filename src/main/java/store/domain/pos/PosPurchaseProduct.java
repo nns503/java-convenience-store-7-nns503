@@ -26,11 +26,11 @@ public class PosPurchaseProduct {
         return product;
     }
 
-    public void updateQuantity(int quantity) {
-        this.quantity += quantity;
-    }
-
     public int getPurchaseAmount() {
         return quantity * product.getPrice();
+    }
+
+    public void updateQuantity(int quantity) {
+        this.quantity += quantity;
     }
 }

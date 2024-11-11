@@ -30,6 +30,26 @@ public class Product {
         this.promotionQuantity = promotionQuantity;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
+    public int getPromotionQuantity() {
+        return promotionQuantity;
+    }
+
     public void update(Product updatingProduct) {
         if (validateNullPromotion(updatingProduct.getPromotion())) {
             promotion = updatingProduct.getPromotion();
@@ -62,26 +82,6 @@ public class Product {
             promotionQuantity = 0;
         }
         return reduceQuantity;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public Promotion getPromotion() {
-        return promotion;
-    }
-
-    public int getPromotionQuantity() {
-        return promotionQuantity;
     }
 
     private boolean validateNullPromotion(Promotion promotion) {
