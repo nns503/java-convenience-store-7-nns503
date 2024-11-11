@@ -7,10 +7,10 @@ import java.util.List;
 
 public class Parser {
 
+    private static final String DELIMITERS = ",";
+
     private Parser() {
     }
-
-    private static final String DELIMITERS = ",";
 
     public static List<String> parseDelimitersString(String delimitedString) {
         try {

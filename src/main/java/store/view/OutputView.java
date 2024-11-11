@@ -1,7 +1,7 @@
 package store.view;
 
 import store.dto.AmountDTO;
-import store.dto.PresentationProductDTO;
+import store.dto.BonusProductDTO;
 import store.dto.ProductDTO;
 import store.dto.PurchaseDetailDTO;
 import store.util.Parser;
@@ -63,10 +63,10 @@ public class OutputView {
         System.out.printf("현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)\n", name, quantity);
     }
 
-    public static void printReceipt(List<PurchaseDetailDTO> purchaseDetails, List<PresentationProductDTO> presentationProducts, AmountDTO amounts) {
+    public static void printReceipt(List<PurchaseDetailDTO> purchaseDetails, List<BonusProductDTO> bonusProducts, AmountDTO amounts) {
         System.out.println("==============W 편의점================");
         printPurchaseDetails(purchaseDetails);
-        printPresentationProducts(presentationProducts);
+        printBonusProducts(bonusProducts);
         printAmounts(amounts);
     }
 
@@ -80,9 +80,9 @@ public class OutputView {
         );
     }
 
-    private static void printPresentationProducts(List<PresentationProductDTO> presentationProducts) {
+    private static void printBonusProducts(List<BonusProductDTO> bonusProducts) {
         System.out.println("==============증  정==================");
-        presentationProducts.forEach(product ->
+        bonusProducts.forEach(product ->
                 System.out.printf("%-20s%20d\n",
                         product.name(),
                         product.quantity())

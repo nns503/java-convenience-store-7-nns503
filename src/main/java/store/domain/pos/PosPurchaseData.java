@@ -2,13 +2,13 @@ package store.domain.pos;
 
 import store.domain.product.Product;
 
-public class PosPurchaseProduct {
+public class PosPurchaseData {
 
     private final String name;
     private int quantity;
     private final Product product;
 
-    public PosPurchaseProduct(String name, int quantity, Product product) {
+    public PosPurchaseData(String name, int quantity, Product product) {
         this.name = name;
         this.quantity = quantity;
         this.product = product;

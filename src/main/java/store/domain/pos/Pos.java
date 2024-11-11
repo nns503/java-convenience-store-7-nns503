@@ -1,6 +1,5 @@
 package store.domain.pos;
 
-import store.domain.product.Product;
 import store.domain.promotion.Promotion;
 
 import java.util.ArrayList;
@@ -10,8 +9,9 @@ public class Pos {
 
     private final static int MAX_MEMBERSHIP_DISCOUNT = 8_000;
     private final static double MEMBERSHIP_DISCOUNT_PERCENT = 0.3;
-    private final List<PosPurchaseProduct> purchaseProducts;
-    private final List<PosBonusProduct> bonusProducts = new ArrayList<>();
+
+    private final List<PosPurchaseData> purchaseData;
+    private final List<PosBonusData> bonusData = new ArrayList<>();
     private int allAmount;
     private int promotionAmount;
     private int promotionDiscount;
@@ -20,8 +20,8 @@ public class Pos {
     private int applyStockIndex;
     private int lackStockIndex;
 
-    public Pos(List<PosPurchaseProduct> purchaseProducts) {
-        this.purchaseProducts = purchaseProducts;
+    public Pos(List<PosPurchaseData> purchaseData) {
+        this.purchaseData = purchaseData;
     }
 
     public int getLackStockIndex() {
@@ -48,56 +48,56 @@ public class Pos {
         return resultAmount;
     }
 
-    public List<PosPurchaseProduct> getAllBuyingProduct() {
-        return purchaseProducts;
+    public List<PosPurchaseData> getAllBuyingProduct() {
+        return purchaseData;
     }
 
-    public List<PosBonusProduct> getAllBonusProduct() {
-        return bonusProducts;
+    public List<PosBonusData> getAllBonusData() {
+        return bonusData;
     }
 
-    public PosPurchaseProduct getPurchaseProduct(int index) {
-        return purchaseProducts.get(index);
+    public PosPurchaseData getPurchaseData(int index) {
+        return purchaseData.get(index);
     }
 
     public int getPurchaseQuantity() {
-        return purchaseProducts.stream()
-                .mapToInt(PosPurchaseProduct::getQuantity)
+        return purchaseData.stream()
+                .mapToInt(PosPurchaseData::getQuantity)
                 .sum();
     }
 
     public void moveApplyStockIndex() {
         applyStockIndex++;
-        if (applyStockIndex == purchaseProducts.size()) {
+        if (applyStockIndex == purchaseData.size()) {
             applyStockIndex = -1;
         }
     }
 
     public void moveLackStockIndex() {
         lackStockIndex++;
-        if (lackStockIndex == purchaseProducts.size()) {
+        if (lackStockIndex == purchaseData.size()) {
             lackStockIndex = -1;
         }
     }
 
     public void calculateAllAmount() {
-        purchaseProducts.forEach(buy -> allAmount += buy.getProduct().getPrice() * buy.getQuantity());
+        purchaseData.forEach(buy -> allAmount += buy.getProduct().getPrice() * buy.getQuantity());
     }
 
     private void setBonusProducts() {
-        purchaseProducts.forEach(buy -> {
+        purchaseData.forEach(buy -> {
             if (!buy.getProduct().isPromotion()) return;
             Promotion promotion = buy.getProduct().getPromotion();
             int bonus = Math.min(buy.getQuantity() / (promotion.buyQuantity() + promotion.bonusQuantity()),
                     buy.getProduct().getPromotionQuantity() / (promotion.buyQuantity() + promotion.bonusQuantity()));
-            bonusProducts.add(new PosBonusProduct(buy.getName(), bonus, buy.getProduct()));
+            bonusData.add(new PosBonusData(buy.getName(), bonus, buy.getProduct()));
             promotionAmount += promotion.getPromotionBundle() * buy.getProduct().getPrice() * bonus;
         });
     }
 
     public void calculatePromotionAmount() {
         setBonusProducts();
-        bonusProducts.forEach(bonus -> promotionDiscount += bonus.getProduct().getPrice() * bonus.getBonusQuantity());
+        bonusData.forEach(bonus -> promotionDiscount += bonus.getProduct().getPrice() * bonus.getBonusQuantity());
     }
 
     public void updateMembershipAmount() {
@@ -109,9 +109,8 @@ public class Pos {
     }
 
     public void sellProduct() {
-        purchaseProducts.forEach(buy -> {
-            Product product = buy.getProduct();
-            product.reduceQuantity(buy.getQuantity());
-        });
+        purchaseData.forEach(buy ->
+                buy.getProduct().reduceQuantity(buy.getQuantity())
+        );
     }
 }

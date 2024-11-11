@@ -1,8 +1,8 @@
 package store.controller.controller;
 
-import store.dto.BuyingProductDTO;
+import store.dto.BuyProductDTO;
 import store.dto.request.AddProductRequest;
-import store.dto.request.BuyingProductRequest;
+import store.dto.request.BuyProductRequest;
 import store.dto.request.MinusProductRequest;
 import store.dto.response.ApplyPromotionResponse;
 import store.dto.response.GetProductListResponse;
@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 
 public class MainController {
 
+    private static final int END_POINT = -1;
     private final StoreService storeService = new StoreService();
     private final PosService posService = new PosService();
     private final StoreController storeController = new StoreController(storeService);
@@ -52,8 +53,8 @@ public class MainController {
 
     private void buy() {
         OutputView.printBuyProducts();
-        List<BuyingProductDTO> buyingProductDTOs = StoreParser.parseBuyProductRequest(InputView.readUserInput());
-        posController.buyProduct(BuyingProductRequest.from(buyingProductDTOs));
+        List<BuyProductDTO> buyProductDTOS = StoreParser.parseBuyProductRequest(InputView.readUserInput());
+        posController.buyProduct(BuyProductRequest.from(buyProductDTOS));
     }
 
     private void applyPromotion() {
@@ -66,7 +67,7 @@ public class MainController {
     }
 
     private boolean checkLastIndex(int index) {
-        return index == -1;
+        return index == END_POINT;
     }
 
     private void addProduct(ApplyPromotionResponse response) {

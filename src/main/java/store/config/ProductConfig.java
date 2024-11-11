@@ -13,7 +13,8 @@ public enum ProductConfig {
 
     INSTANCE;
 
-    private static String FILE_NAME = "products.md";
+    private static final String FILE_NAME = "products.md";
+    private static final int ATTRIBUTE_LINE = 1;
 
     private final PromotionRepository promotionRepository = PromotionRepository.INSTANCE;
     private final ProductRepository productRepository = ProductRepository.INSTANCE;
@@ -22,7 +23,7 @@ public enum ProductConfig {
     public void init() {
         List<String> productLines = fileUtil.readFile(FILE_NAME);
         productLines.stream()
-                .skip(1)
+                .skip(ATTRIBUTE_LINE)
                 .forEach(line -> {
                     Product product = parseProduct(line);
                     updateProduct(product);

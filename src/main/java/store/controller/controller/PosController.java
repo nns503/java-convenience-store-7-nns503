@@ -1,7 +1,7 @@
 package store.controller.controller;
 
 import store.dto.request.AddProductRequest;
-import store.dto.request.BuyingProductRequest;
+import store.dto.request.BuyProductRequest;
 import store.dto.request.MinusProductRequest;
 import store.service.PosService;
 
@@ -13,7 +13,7 @@ public class PosController {
         this.posService = posService;
     }
 
-    public void buyProduct(BuyingProductRequest request) {
+    public void buyProduct(BuyProductRequest request) {
         posService.buyProduct(request);
     }
 

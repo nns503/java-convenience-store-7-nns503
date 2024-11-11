@@ -12,7 +12,8 @@ public enum PromotionConfig {
 
     INSTANCE;
 
-    private static String FILE_NAME = "promotions.md";
+    private static final String FILE_NAME = "promotions.md";
+    private static final int ATTRIBUTE_LINE = 1;
 
     private final PromotionRepository promotionRepository = PromotionRepository.INSTANCE;
     private final FileUtil fileUtil = new FileUtil();
@@ -20,7 +21,7 @@ public enum PromotionConfig {
     public void init() {
         List<String> productLines = fileUtil.readFile(FILE_NAME);
         productLines.stream()
-                .skip(1)
+                .skip(ATTRIBUTE_LINE)
                 .forEach(line -> {
                     Promotion promotion = parsePromotion(line);
                     promotionRepository.save(promotion);

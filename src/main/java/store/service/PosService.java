@@ -2,11 +2,11 @@ package store.service;
 
 import store.domain.pos.Pos;
 import store.domain.pos.PosContext;
-import store.domain.pos.PosPurchaseProduct;
+import store.domain.pos.PosPurchaseData;
 import store.domain.product.Product;
 import store.domain.product.ProductRepository;
-import store.dto.BuyingProductDTO;
-import store.dto.request.BuyingProductRequest;
+import store.dto.BuyProductDTO;
+import store.dto.request.BuyProductRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,30 +16,30 @@ public class PosService {
     private final ProductRepository productRepository = ProductRepository.INSTANCE;
     private final PosContext posContext = PosContext.INSTANCE;
 
-    public void buyProduct(BuyingProductRequest request) {
-        List<PosPurchaseProduct> posPurchaseProducts = getPosPurchaseProduct(request.buyingProductDTOs());
-        posContext.init(new Pos(posPurchaseProducts));
+    public void buyProduct(BuyProductRequest request) {
+        List<PosPurchaseData> posPurchaseData = getPosPurchaseProduct(request.buyProductDTOS());
+        posContext.init(new Pos(posPurchaseData));
     }
 
-    private List<PosPurchaseProduct> getPosPurchaseProduct(List<BuyingProductDTO> buyingProducts) {
-        List<PosPurchaseProduct> posPurchaseProducts = new ArrayList<>();
+    private List<PosPurchaseData> getPosPurchaseProduct(List<BuyProductDTO> buyingProducts) {
+        List<PosPurchaseData> posPurchaseData = new ArrayList<>();
         buyingProducts.forEach(buy -> {
             Product findProduct = productRepository.getProductByName(buy.name());
             findProduct.checkPurchaseQuantity(buy.quantity());
-            posPurchaseProducts.add(new PosPurchaseProduct(buy.name(), buy.quantity(), findProduct));
+            posPurchaseData.add(new PosPurchaseData(buy.name(), buy.quantity(), findProduct));
         });
-        return posPurchaseProducts;
+        return posPurchaseData;
     }
 
     public void addProduct(int index, int quantity) {
         Pos pos = posContext.getPos();
-        PosPurchaseProduct updatedProduct = pos.getPurchaseProduct(index);
+        PosPurchaseData updatedProduct = pos.getPurchaseData(index);
         updatedProduct.updateQuantity(quantity);
     }
 
     public void minusProduct(int index, int quantity) {
         Pos pos = posContext.getPos();
-        PosPurchaseProduct updatedProduct = pos.getPurchaseProduct(index);
+        PosPurchaseData updatedProduct = pos.getPurchaseData(index);
         updatedProduct.updateQuantity(-quantity);
     }
 
