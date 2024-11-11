@@ -17,7 +17,7 @@ public record ProductDTO(
 
     private static String getPromotionName(Promotion promotion) {
         if (promotion != null) {
-            return promotion.getName();
+            return promotion.name();
         }
         return null;
     }

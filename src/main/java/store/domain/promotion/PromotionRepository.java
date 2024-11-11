@@ -11,11 +11,11 @@ public enum PromotionRepository {
     private static final Map<String, Promotion> promotions = new HashMap<>();
 
     public void save(Promotion promotion) {
-        promotions.put(promotion.getName(), promotion);
+        promotions.put(promotion.name(), promotion);
     }
 
     public boolean isPromotion(Promotion promotion) {
-        return promotions.containsKey(promotion.getName());
+        return promotions.containsKey(promotion.name());
     }
 
     public Promotion getPromotionByName(String name) {

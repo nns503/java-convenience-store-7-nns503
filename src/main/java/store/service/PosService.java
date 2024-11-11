@@ -19,8 +19,8 @@ public class PosService {
             PosPurchaseProduct buyingData = pos.getPurchaseProduct(index);
             Product product = buyingData.getProduct();
             if(product.isPromotion()){
-                int bonusQuantity = product.getPromotion().getBonusQuantity();
-                int buyQuantity = product.getPromotion().getBuyQuantity();
+                int bonusQuantity = product.getPromotion().bonusQuantity();
+                int buyQuantity = product.getPromotion().buyQuantity();
                 int promotionQuantity = product.getPromotionQuantity();
                 int buyingQuantity = buyingData.getQuantity();
                 if(promotionQuantity > buyingQuantity && (buyingQuantity % (buyQuantity + bonusQuantity)) == buyingQuantity){
@@ -44,7 +44,7 @@ public class PosService {
             pos.moveLackStockIndex();
             PosPurchaseProduct purchaseData = pos.getPurchaseProduct(index);
             Product purchaseProduct = purchaseData.getProduct();
-            if(purchaseProduct.isPromotion()) continue;
+            if(!purchaseProduct.isPromotion()) continue;
             int remainingQuantity = purchaseData.getQuantity() % purchaseProduct.getPromotion().getPromotionBundle();
             int excessQuantity = Math.max(0, purchaseData.getQuantity() - purchaseProduct.getPromotionQuantity());
             if(remainingQuantity + excessQuantity <= 0){

@@ -89,8 +89,8 @@ public class Pos {
         purchaseProducts.forEach(buy->{
             Promotion promotion = buy.getProduct().getPromotion();
             if(promotion != null && promotion.isPromotionPeriod()){
-                int bonus = Math.min(buy.getQuantity() / (promotion.getBuyQuantity() + promotion.getBonusQuantity()),
-                        buy.getProduct().getPromotionQuantity() / (promotion.getBuyQuantity() + promotion.getBonusQuantity()));
+                int bonus = Math.min(buy.getQuantity() / (promotion.buyQuantity() + promotion.bonusQuantity()),
+                        buy.getProduct().getPromotionQuantity() / (promotion.buyQuantity() + promotion.bonusQuantity()));
                 bonusProducts.add(new PosBonusProduct(buy.getName(), bonus, buy.getProduct()));
                 promotionAmount += promotion.getPromotionBundle() * buy.getProduct().getPrice() * bonus;
             }
