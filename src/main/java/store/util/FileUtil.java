@@ -11,8 +11,7 @@ public class FileUtil {
             InputStream inputStream = classLoader.getResourceAsStream(fileName);
             validatedIsFile(inputStream);
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            return reader.lines()
-                    .toList();
+            return reader.lines().toList();
         } catch (IOException e) {
             throw new RuntimeException("파일을 읽는 도중 오류가 발생했습니다.");
         }
