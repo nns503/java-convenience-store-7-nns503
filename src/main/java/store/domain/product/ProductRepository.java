@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public enum ProductRepository {
+
     INSTANCE;
 
     private static final Map<String, Product> products = new HashMap<>();
@@ -25,7 +26,7 @@ public enum ProductRepository {
     }
 
     private void validateNoSuchProduct(Product product) {
-        if(product == null) {
+        if (product == null) {
             throw new IllegalArgumentException("존재하지 않는 상품입니다.");
         }
     }
@@ -34,7 +35,7 @@ public enum ProductRepository {
         return new ArrayList<>(products.values());
     }
 
-    public void clear(){
+    public void clear() {
         products.clear();
     }
 }

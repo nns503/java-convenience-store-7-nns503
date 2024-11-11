@@ -10,6 +10,7 @@ import store.util.Parser;
 import java.util.List;
 
 public enum ProductConfig {
+
     INSTANCE;
 
     private static String FILE_NAME = "products.md";

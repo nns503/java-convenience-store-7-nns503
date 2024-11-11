@@ -3,6 +3,7 @@ package store.domain.pos;
 import store.domain.product.Product;
 
 public class PosBonusProduct {
+
     private final String name;
     private final int bonusQuantity;
     private final Product product;

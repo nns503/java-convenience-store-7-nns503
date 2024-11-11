@@ -77,7 +77,7 @@ public class MainController {
     private void lackPromotion() {
         while (true) {
             LackPromotionResponse response = posController.lackPromotion();
-            if(checkLastIndex(response.index())) break;
+            if (checkLastIndex(response.index())) break;
             OutputView.printLackBonusProduct(response.name(), response.quantity());
             minusProduct(response);
         }

@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.List;
 
 public class FileUtil {
+
     public List<String> readFile(String fileName) {
         ClassLoader classLoader = getClass().getClassLoader();
         try {

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public enum PromotionRepository {
+
     INSTANCE;
 
     private static final Map<String, Promotion> promotions = new HashMap<>();
@@ -27,7 +28,7 @@ public enum PromotionRepository {
         return new ArrayList<>(promotions.values());
     }
 
-    public void clear(){
+    public void clear() {
         promotions.clear();
     }
 }

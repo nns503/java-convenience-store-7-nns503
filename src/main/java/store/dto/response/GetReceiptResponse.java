@@ -12,7 +12,7 @@ public record GetReceiptResponse(
         List<PresentationProductDTO> presentationProducts,
         AmountDTO amounts
 ) {
-    public static GetReceiptResponse from(Pos pos){
+    public static GetReceiptResponse from(Pos pos) {
         List<PurchaseDetailDTO> purchaseDetails = getPurchaseDetails(pos);
         List<PresentationProductDTO> presentationProducts = getPresentationProducts(pos);
         AmountDTO amountDTO = getAmounts(pos);

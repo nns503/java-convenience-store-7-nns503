@@ -13,10 +13,9 @@ public class Product {
     public Product(String name, int price, int quantity, Promotion promotion) {
         this.name = name;
         this.price = price;
-        if(promotion == null){
+        if (promotion == null) {
             this.quantity = quantity;
-        }
-        else{
+        } else {
             this.promotionQuantity = quantity;
             this.promotion = promotion;
         }
@@ -31,15 +30,15 @@ public class Product {
     }
 
     public void update(Product updatingProduct) {
-        if(updatingProduct.getPromotion() != null){
+        if (updatingProduct.getPromotion() != null) {
             promotion = updatingProduct.getPromotion();
         }
         quantity += updatingProduct.getQuantity();
         promotionQuantity += updatingProduct.getPromotionQuantity();
     }
 
-    public void checkBuyingQuantity(int buyingQuantity){
-        if(buyingQuantity > quantity + promotionQuantity){
+    public void checkBuyingQuantity(int buyingQuantity) {
+        if (buyingQuantity > quantity + promotionQuantity) {
             throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다.");
         }
     }
@@ -64,12 +63,12 @@ public class Product {
         return promotionQuantity;
     }
 
-    public boolean isPromotion(){
+    public boolean isPromotion() {
         return promotion != null && promotion.isPromotionPeriod();
     }
 
-    public void reduceQuantity(int reduceQuantity){
-        if(promotion != null){
+    public void reduceQuantity(int reduceQuantity) {
+        if (promotion != null) {
             reduceQuantity = reducePromotionQuantity(reduceQuantity);
         }
         quantity -= reduceQuantity;
@@ -77,7 +76,7 @@ public class Product {
 
     private int reducePromotionQuantity(int reduceQuantity) {
         promotionQuantity -= reduceQuantity;
-        if(promotionQuantity < 0){
+        if (promotionQuantity < 0) {
             reduceQuantity = -promotionQuantity;
             promotionQuantity = 0;
         }

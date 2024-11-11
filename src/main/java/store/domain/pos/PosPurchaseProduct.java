@@ -3,6 +3,7 @@ package store.domain.pos;
 import store.domain.product.Product;
 
 public class PosPurchaseProduct {
+
     private final String name;
     private int quantity;
     private final Product product;
@@ -10,7 +11,7 @@ public class PosPurchaseProduct {
     public PosPurchaseProduct(String name, int quantity, Product product) {
         this.name = name;
         this.quantity = quantity;
-        this. product = product;
+        this.product = product;
     }
 
     public String getName() {
@@ -29,7 +30,7 @@ public class PosPurchaseProduct {
         this.quantity += quantity;
     }
 
-    public int getPurchaseAmount(){
+    public int getPurchaseAmount() {
         return quantity * product.getPrice();
     }
 }

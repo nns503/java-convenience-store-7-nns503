@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public enum PromotionConfig {
+
     INSTANCE;
 
     private static String FILE_NAME = "promotions.md";

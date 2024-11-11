@@ -7,14 +7,14 @@ import java.util.List;
 
 public class StoreParser {
 
-    private StoreParser(){
+    private StoreParser() {
     }
 
     private static final String BUYING_PRODUCT_FORMAT = "^[가-힣a-zA-Z0-9]+-\\d+$";
     private static final String PARSING_PRODUCT_AND_QUANTITY = "-";
     private static final String DELIMITERS = ",";
 
-    public static List<BuyingProductDTO> parseBuyProductRequest(String input){
+    public static List<BuyingProductDTO> parseBuyProductRequest(String input) {
         List<String> buyingText = parseBuyProducts(input);
         return buyingText.stream()
                 .map(text -> {

@@ -47,7 +47,7 @@ public class Pos {
         }
     }
 
-    public int getPurchaseQuantity(){
+    public int getPurchaseQuantity() {
         return purchaseProducts.stream()
                 .mapToInt(PosPurchaseProduct::getQuantity)
                 .sum();
@@ -82,13 +82,13 @@ public class Pos {
     }
 
     public void calculateAllAmount() {
-        purchaseProducts.forEach(buy-> allAmount += buy.getProduct().getPrice() * buy.getQuantity());
+        purchaseProducts.forEach(buy -> allAmount += buy.getProduct().getPrice() * buy.getQuantity());
     }
 
-    private void setBonusProducts(){
-        purchaseProducts.forEach(buy->{
+    private void setBonusProducts() {
+        purchaseProducts.forEach(buy -> {
             Promotion promotion = buy.getProduct().getPromotion();
-            if(promotion != null && promotion.isPromotionPeriod()){
+            if (promotion != null && promotion.isPromotionPeriod()) {
                 int bonus = Math.min(buy.getQuantity() / (promotion.buyQuantity() + promotion.bonusQuantity()),
                         buy.getProduct().getPromotionQuantity() / (promotion.buyQuantity() + promotion.bonusQuantity()));
                 bonusProducts.add(new PosBonusProduct(buy.getName(), bonus, buy.getProduct()));

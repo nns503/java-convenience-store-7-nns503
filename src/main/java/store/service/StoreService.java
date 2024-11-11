@@ -18,7 +18,7 @@ public class StoreService {
     private final ProductRepository productRepository = ProductRepository.INSTANCE;
     private final PosContext posContext = PosContext.INSTANCE;
 
-    public GetProductListResponse getProductList(){
+    public GetProductListResponse getProductList() {
         return GetProductListResponse.from(productRepository.getAllProducts());
     }
 
