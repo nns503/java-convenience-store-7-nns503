@@ -1,4 +1,4 @@
-package store.controller.controller;
+package store.controller;
 
 import store.dto.response.ApplyPromotionResponse;
 import store.dto.response.GetProductListResponse;

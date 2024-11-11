@@ -1,4 +1,4 @@
-package store.controller.controller;
+package store.controller;
 
 import store.dto.BuyProductDTO;
 import store.dto.request.AddProductRequest;
