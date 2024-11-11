@@ -16,7 +16,7 @@ public enum PromotionRepository {
     }
 
     public Promotion getPromotionByName(String name) {
-        if(name.equals("null")) return null;
+        if (name.equals("null")) return null;
         Promotion promotion = promotions.get(name);
         if (promotion == null) {
             throw new IllegalArgumentException("존재하지 않는 프로모션입니다.");

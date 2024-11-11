@@ -63,7 +63,7 @@ public class OutputView {
         System.out.printf("현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)\n", name, quantity);
     }
 
-    public static void printMembership(){
+    public static void printMembership() {
         System.out.println("멤버십 할인을 받으시겠습니까? (Y/N)");
     }
 

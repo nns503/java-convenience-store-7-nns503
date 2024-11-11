@@ -15,6 +15,6 @@ public class Formatter {
     }
 
     public static String formatToErrorMessage(String message) {
-        return String.format("%s %s",ERROR, message);
+        return String.format("%s %s", ERROR, message);
     }
 }

@@ -69,9 +69,4 @@ public class ProductTest {
         Product product = productRepository.getProductByName(inputName);
         assertThat(product.isPromotion()).isTrue();
     }
-
-    @Test
-    void 상품_재고보다_작으면_예외() {
-
-    }
 }
