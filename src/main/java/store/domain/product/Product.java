@@ -16,10 +16,10 @@ public class Product {
         this.price = price;
         if (promotion == null) {
             this.quantity = quantity;
-        } else {
-            this.promotionQuantity = quantity;
-            this.promotion = promotion;
+            return;
         }
+        this.promotionQuantity = quantity;
+        this.promotion = promotion;
     }
 
     public Product(String name, int price, int quantity, Promotion promotion, int promotionQuantity) {
