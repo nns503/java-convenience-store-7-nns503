@@ -17,14 +17,18 @@ public class PosService {
     private final PosContext posContext = PosContext.INSTANCE;
 
     public void buyProduct(BuyingProductRequest request) {
-        List<BuyingProductDTO> buyingProducts = request.buyingProductDTOs();
+        List<PosPurchaseProduct> posPurchaseProducts = getPosPurchaseProduct(request.buyingProductDTOs());
+        posContext.init(new Pos(posPurchaseProducts));
+    }
+
+    private List<PosPurchaseProduct> getPosPurchaseProduct(List<BuyingProductDTO> buyingProducts) {
         List<PosPurchaseProduct> posPurchaseProducts = new ArrayList<>();
         buyingProducts.forEach(buy -> {
             Product findProduct = productRepository.getProductByName(buy.name());
             findProduct.checkPurchaseQuantity(buy.quantity());
             posPurchaseProducts.add(new PosPurchaseProduct(buy.name(), buy.quantity(), findProduct));
         });
-        posContext.init(new Pos(posPurchaseProducts));
+        return posPurchaseProducts;
     }
 
     public void addProduct(int index, int quantity) {
