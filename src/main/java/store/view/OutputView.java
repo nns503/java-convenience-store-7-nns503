@@ -67,19 +67,19 @@ public class OutputView {
         System.out.println("==============W 편의점================");
         System.out.printf("%-20s%-20s%-15s\n", "상품명", "수량", "금액");
 
-        purchaseDetails.forEach(detail -> {
+        purchaseDetails.forEach(detail ->
             System.out.printf("%-20s%20d%15s\n",
                     detail.name(),
                     detail.quantity(),
-                    formatToCurrency(detail.amount()));
-        });
+                    formatToCurrency(detail.amount()))
+        );
 
         System.out.println("==============증  정==================");
-        presentationProducts.forEach(product -> {
+        presentationProducts.forEach(product ->
             System.out.printf("%-20s%20d\n",
                     product.name(),
-                    product.quantity());
-        });
+                    product.quantity())
+        );
 
         System.out.println("====================================");
         System.out.printf("%-20s%20d%15s\n", "총구매액", amounts.totalQuantity(), formatToCurrency(amounts.totalAmount()));
