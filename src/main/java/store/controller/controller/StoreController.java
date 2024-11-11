@@ -16,7 +16,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    public GetProductListResponse getProductList(){
+    public GetProductListResponse getProductList() {
         return storeService.getProductList();
     }
 
@@ -24,19 +24,27 @@ public class StoreController {
         storeService.buyProduct(request);
     }
 
-    public ApplyPromotionResponse applyPromotion(){
+    public ApplyPromotionResponse applyPromotion() {
         return storeService.applyPromotion();
     }
 
     public void addProduct(AddProductRequest request) {
-        storeService.addProduct(request.index(),  request.quantity());
+        storeService.addProduct(request.index(), request.quantity());
     }
 
-    public LackPromotionResponse lackPromotion(){
+    public LackPromotionResponse lackPromotion() {
         return storeService.lackPromotion();
     }
 
-    public void minusProduct(MinusProductRequest request){
-        storeService.minusProduct(request.index(),  request.quantity());
+    public void minusProduct(MinusProductRequest request) {
+        storeService.minusProduct(request.index(), request.quantity());
+    }
+
+    public void calculateAmount() {
+        storeService.calculateAmount();
+    }
+
+    public void useMembership() {
+        storeService.userMembership();
     }
 }

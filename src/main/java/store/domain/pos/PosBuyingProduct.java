@@ -28,4 +28,8 @@ public class PosBuyingProduct {
     public void updateQuantity(int quantity) {
         this.quantity += quantity;
     }
+
+    public int getPurchaseAmount(){
+        return quantity * product.getPrice();
+    }
 }

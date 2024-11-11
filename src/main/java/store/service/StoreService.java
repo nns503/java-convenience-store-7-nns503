@@ -33,9 +33,10 @@ public class StoreService {
         });
         posContext.init(new Pos(posBuyingProducts));
     }
-
+    
     public ApplyPromotionResponse applyPromotion(){
         Pos pos = posContext.getPos();
+        //날짜검증추가
         while(pos.getApplyStockIndex() != -1){
             int index = pos.getApplyStockIndex();
             pos.moveApplyStockIndex();
@@ -46,7 +47,7 @@ public class StoreService {
                 int buyQuantity = product.getPromotion().getBuyQuantity();
                 int promotionQuantity = product.getPromotionQuantity();
                 int buyingQuantity = buyingData.getQuantity();
-                if(promotionQuantity > buyingQuantity && buyingQuantity % (buyQuantity + bonusQuantity) != 0 ){
+                if(promotionQuantity > buyingQuantity && (buyingQuantity % (buyQuantity + bonusQuantity)) == buyingQuantity){
                     return ApplyPromotionResponse.of(index, buyingData.getName(), 1);
                 }
             }
@@ -59,7 +60,7 @@ public class StoreService {
         PosBuyingProduct updatedProduct = pos.getBuyingProduct(index);
         updatedProduct.updateQuantity(quantity);
     }
-
+    
     public LackPromotionResponse lackPromotion(){
         Pos pos = posContext.getPos();
         while(pos.getLackStockIndex() != -1){
@@ -73,7 +74,7 @@ public class StoreService {
                 int promotionQuantity = product.getPromotionQuantity();
                 int buyingQuantity = buyingData.getQuantity();
                 int remainingQuantity = buyingQuantity % (buyQuantity + bonusQuantity);
-                int excessQuantity = buyingQuantity - promotionQuantity;
+                int excessQuantity = Math.max(0, buyingQuantity - promotionQuantity);
                 if(remainingQuantity + excessQuantity > 0){
                     return LackPromotionResponse.of(index, buyingData.getName(), remainingQuantity + excessQuantity);
                 }
@@ -86,5 +87,16 @@ public class StoreService {
         Pos pos = posContext.getPos();
         PosBuyingProduct updatedProduct = pos.getBuyingProduct(index);
         updatedProduct.updateQuantity(-quantity);
+    }
+
+    public void calculateAmount() {
+        Pos pos = posContext.getPos();
+        pos.calculateAllAmount();
+        pos.calculatePromotionAmount();
+    }
+
+    public void userMembership() {
+        Pos pos = posContext.getPos();
+        pos.updateMemberShipAmount();
     }
 }

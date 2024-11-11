@@ -25,6 +25,8 @@ public class MainController {
         process(this::buy);
         process(this::applyPromotion);
         process(this::lackPromotion);
+        calculateAmount();
+        process(this::membership);
     }
 
     private void printProductList() {
@@ -54,8 +56,17 @@ public class MainController {
             if(response.index() == -1) break;
             OutputView.printLackBonusProduct(response.name(), response.quantity());
             boolean input = process(this::inputYorN);
-            if(input) storeController.minusProduct(MinusProductRequest.of(response.index(), response.quantity()));
+            if(!input) storeController.minusProduct(MinusProductRequest.of(response.index(), response.quantity()));
         }
+    }
+
+    private void calculateAmount(){
+        storeController.calculateAmount();
+    }
+
+    private void membership(){
+        boolean input = process(this::inputYorN);
+        if(input) storeController.useMembership();
     }
 
     private Boolean inputYorN() {
