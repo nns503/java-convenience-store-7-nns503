@@ -67,4 +67,20 @@ public class Product {
     public boolean isPromotion(){
         return promotion != null;
     }
+
+    public void reduceQuantity(int reduceQuantity){
+        if(promotion != null){
+            reduceQuantity = reducePromotionQuantity(reduceQuantity);
+        }
+        quantity -= reduceQuantity;
+    }
+
+    private int reducePromotionQuantity(int reduceQuantity) {
+        promotionQuantity -= reduceQuantity;
+        if(promotionQuantity < 0){
+            reduceQuantity = -promotionQuantity;
+            promotionQuantity = 0;
+        }
+        return reduceQuantity;
+    }
 }

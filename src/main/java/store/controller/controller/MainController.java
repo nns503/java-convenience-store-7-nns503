@@ -32,7 +32,7 @@ public class MainController {
         process(this::buy);
         process(this::applyPromotion);
         process(this::lackPromotion);
-        calculateDiscountAmount();
+        calculateProduct();
         process(this::applyMembership);
         result();
     }
@@ -73,8 +73,8 @@ public class MainController {
         }
     }
 
-    private void calculateDiscountAmount() {
-        storeController.calculateDiscountAmount();
+    private void calculateProduct() {
+        storeController.calculateProduct();
     }
 
     private void applyMembership() {

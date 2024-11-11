@@ -90,15 +90,16 @@ public class StoreService {
         updatedProduct.updateQuantity(-quantity);
     }
 
-    public void calculateDiscountAmount() {
+    public void calculateProduct() {
         Pos pos = posContext.getPos();
+        pos.sellProduct();
         pos.calculateAllAmount();
         pos.calculatePromotionAmount();
     }
 
     public void userMembership() {
         Pos pos = posContext.getPos();
-        pos.updateMemberShipAmount();
+        pos.updateMembershipAmount();
     }
 
     public GetReceiptResponse getReceipt() {

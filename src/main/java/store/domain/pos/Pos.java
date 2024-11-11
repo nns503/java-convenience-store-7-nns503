@@ -1,5 +1,6 @@
 package store.domain.pos;
 
+import store.domain.product.Product;
 import store.domain.promotion.Promotion;
 
 import java.util.ArrayList;
@@ -46,6 +47,12 @@ public class Pos {
     public int getPurchaseQuantity(){;
        return purchaseProducts.stream()
                 .mapToInt(PosBuyingProduct::getQuantity)
+                .sum();
+    }
+
+    public int getBonusQuantity(){
+        return bonusProducts.stream()
+                .mapToInt(PosBonusProduct::getQuantity)
                 .sum();
     }
 
@@ -101,11 +108,18 @@ public class Pos {
         });
     }
 
-    public void updateMemberShipAmount() {
+    public void updateMembershipAmount() {
         membershipAmount = Math.min((allAmount - promotionAmount) * 30 / 100, 8000);
     }
 
     public void calculateResult() {
         resultAmount = allAmount - promotionAmount - membershipAmount;
+    }
+
+    public void sellProduct() {
+        purchaseProducts.forEach(buy -> {
+            Product product = buy.getProduct();
+            product.reduceQuantity(buy.getQuantity());
+        });
     }
 }
