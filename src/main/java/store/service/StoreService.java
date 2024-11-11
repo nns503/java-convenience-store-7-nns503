@@ -90,7 +90,7 @@ public class StoreService {
         updatedProduct.updateQuantity(-quantity);
     }
 
-    public void calculateAmount() {
+    public void calculateDiscountAmount() {
         Pos pos = posContext.getPos();
         pos.calculateAllAmount();
         pos.calculatePromotionAmount();

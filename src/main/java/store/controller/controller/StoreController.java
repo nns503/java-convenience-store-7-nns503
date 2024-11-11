@@ -41,8 +41,8 @@ public class StoreController {
         storeService.minusProduct(request.index(), request.quantity());
     }
 
-    public void calculateAmount() {
-        storeService.calculateAmount();
+    public void calculateDiscountAmount() {
+        storeService.calculateDiscountAmount();
     }
 
     public void useMembership() {

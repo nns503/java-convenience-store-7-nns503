@@ -18,26 +18,26 @@ import java.util.function.Supplier;
 
 public class MainController {
 
-    private final StoreService storeService= new StoreService();
+    private final StoreService storeService = new StoreService();
     private final StoreController storeController = new StoreController(storeService);
 
-    public void start(){
+    public void start() {
         do {
-            playStore();
-        } while (additionalBuying());
+            play();
+        } while (repeat());
     }
 
-    private void playStore() {
+    private void play() {
         printProductList();
         process(this::buy);
         process(this::applyPromotion);
         process(this::lackPromotion);
-        calculateAmount();
-        process(this::membership);
+        calculateDiscountAmount();
+        process(this::applyMembership);
         result();
     }
 
-    private boolean additionalBuying() {
+    private boolean repeat() {
         OutputView.printAdditionalBuying();
         return process(this::inputYorN);
     }
@@ -53,47 +53,45 @@ public class MainController {
         storeController.buyProduct(BuyingProductRequest.from(buyingProductDTOs));
     }
 
-    private void applyPromotion(){
-        while(true){
+    private void applyPromotion() {
+        while (true) {
             ApplyPromotionResponse response = storeController.applyPromotion();
-            if(response.index() == -1) break;
+            if (response.index() == -1) break;
             OutputView.printApplyBonusProduct(response.name(), response.quantity());
-            boolean input = process(this::inputYorN);
-            if(input) storeController.addProduct(AddProductRequest.of(response.index(), response.quantity()));
+            if (process(this::inputYorN))
+                storeController.addProduct(AddProductRequest.of(response.index(), response.quantity()));
         }
     }
 
-    private void lackPromotion(){
-        while(true){
+    private void lackPromotion() {
+        while (true) {
             LackPromotionResponse response = storeController.lackPromotion();
-            if(response.index() == -1) break;
+            if (response.index() == -1) break;
             OutputView.printLackBonusProduct(response.name(), response.quantity());
-            boolean input = process(this::inputYorN);
-            if(!input) storeController.minusProduct(MinusProductRequest.of(response.index(), response.quantity()));
+            if (!process(this::inputYorN))
+                storeController.minusProduct(MinusProductRequest.of(response.index(), response.quantity()));
         }
     }
 
-    private void calculateAmount(){
-        storeController.calculateAmount();
+    private void calculateDiscountAmount() {
+        storeController.calculateDiscountAmount();
     }
 
-    private void membership(){
-        boolean input = process(this::inputYorN);
-        if(input) storeController.useMembership();
+    private void applyMembership() {
+        if (process(this::inputYorN)) storeController.useMembership();
     }
 
-    private void result(){
+    private void result() {
         GetReceiptResponse response = storeController.getReceipt();
         OutputView.printReceipt(response.purchaseDetails(), response.presentationProducts(), response.amounts());
     }
 
     private Boolean inputYorN() {
         String input = InputView.readUserInput();
-        if(!input.equals("Y") && !input.equals("N")){
+        if (!(input.equals("Y") || input.equals("N"))) {
             throw new IllegalArgumentException("Y/N 중 하나를 입력해주세요");
         }
-        if(input.equals("Y")){return true;}
-        return false;
+        return input.equals("Y");
     }
 
     private void process(Runnable action) {
@@ -116,5 +114,4 @@ public class MainController {
             }
         }
     }
-
 }
