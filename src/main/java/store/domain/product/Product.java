@@ -4,8 +4,8 @@ import store.domain.promotion.Promotion;
 
 public class Product {
 
-    private String name;
-    private int price;
+    private final String name;
+    private final int price;
     private int quantity;
     private Promotion promotion;
     private int promotionQuantity;
@@ -30,7 +30,7 @@ public class Product {
     }
 
     public void update(Product updatingProduct) {
-        if (updatingProduct.getPromotion() != null) {
+        if (validateNullPromotion(updatingProduct.getPromotion())) {
             promotion = updatingProduct.getPromotion();
         }
         quantity += updatingProduct.getQuantity();
@@ -41,6 +41,26 @@ public class Product {
         if (buyingQuantity > quantity + promotionQuantity) {
             throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다.");
         }
+    }
+
+    public boolean isPromotion() {
+        return validateNullPromotion(promotion) && promotion.isPromotionPeriod();
+    }
+
+    public void reduceQuantity(int reduceQuantity) {
+        if (validateNullPromotion(promotion)) {
+            reduceQuantity = reducePromotionQuantity(reduceQuantity);
+        }
+        quantity -= reduceQuantity;
+    }
+
+    private int reducePromotionQuantity(int reduceQuantity) {
+        promotionQuantity -= reduceQuantity;
+        if (promotionQuantity < 0) {
+            reduceQuantity = -promotionQuantity;
+            promotionQuantity = 0;
+        }
+        return reduceQuantity;
     }
 
     public String getName() {
@@ -63,23 +83,7 @@ public class Product {
         return promotionQuantity;
     }
 
-    public boolean isPromotion() {
-        return promotion != null && promotion.isPromotionPeriod();
-    }
-
-    public void reduceQuantity(int reduceQuantity) {
-        if (promotion != null) {
-            reduceQuantity = reducePromotionQuantity(reduceQuantity);
-        }
-        quantity -= reduceQuantity;
-    }
-
-    private int reducePromotionQuantity(int reduceQuantity) {
-        promotionQuantity -= reduceQuantity;
-        if (promotionQuantity < 0) {
-            reduceQuantity = -promotionQuantity;
-            promotionQuantity = 0;
-        }
-        return reduceQuantity;
+    private boolean validateNullPromotion(Promotion promotion) {
+        return promotion != null;
     }
 }
