@@ -41,11 +41,6 @@ public class MainController {
         result();
     }
 
-    private boolean repeat() {
-        OutputView.printAdditionalBuying();
-        return process(this::inputYorN);
-    }
-
     private void printProductList() {
         GetProductListResponse response = storeController.getProductList();
         OutputView.printProductList(response.productDTOs());
@@ -96,6 +91,7 @@ public class MainController {
     }
 
     private void applyMembership() {
+        OutputView.printMembership();
         if (process(this::inputYorN)) {
             posController.useMembership();
         }
@@ -127,6 +123,11 @@ public class MainController {
                 OutputView.printException(e.getMessage());
             }
         }
+    }
+
+    private boolean repeat() {
+        OutputView.printAdditionalBuying();
+        return process(this::inputYorN);
     }
 
     private boolean process(Supplier<Boolean> action) {
