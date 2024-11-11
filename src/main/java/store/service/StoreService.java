@@ -42,7 +42,7 @@ public class StoreService {
             pos.moveApplyStockIndex();
             PosBuyingProduct buyingData = pos.getBuyingProduct(index);
             Product product = buyingData.getProduct();
-            if(product.isPromotion() && product.getPromotion().isPromotionPeriod()){
+            if(product.isPromotion()){
                 int bonusQuantity = product.getPromotion().getBonusQuantity();
                 int buyQuantity = product.getPromotion().getBuyQuantity();
                 int promotionQuantity = product.getPromotionQuantity();
@@ -68,7 +68,7 @@ public class StoreService {
             pos.moveLackStockIndex();
             PosBuyingProduct buyingData = pos.getBuyingProduct(index);
             Product product = buyingData.getProduct();
-            if(product.isPromotion() && product.getPromotion().isPromotionPeriod()){
+            if(product.isPromotion()){
                 int bonusQuantity = product.getPromotion().getBonusQuantity();
                 int buyQuantity = product.getPromotion().getBuyQuantity();
                 int promotionQuantity = product.getPromotionQuantity();

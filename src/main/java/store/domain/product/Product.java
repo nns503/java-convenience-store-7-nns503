@@ -65,7 +65,7 @@ public class Product {
     }
 
     public boolean isPromotion(){
-        return promotion != null;
+        return promotion != null && promotion.isPromotionPeriod();
     }
 
     public void reduceQuantity(int reduceQuantity){
