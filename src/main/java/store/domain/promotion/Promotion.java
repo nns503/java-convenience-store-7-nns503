@@ -33,6 +33,10 @@ public class Promotion {
         return bonusQuantity;
     }
 
+    public int getPromotionQuantity(){
+        return buyQuantity + bonusQuantity;
+    }
+
     public LocalDate getStartDate() {
         return startDate;
     }
@@ -43,6 +47,6 @@ public class Promotion {
 
     public boolean isPromotionPeriod(){
         LocalDate now = DateTimes.now().toLocalDate();
-        return !now.isBefore(startDate) && !now.isAfter(endDate);
+        return !(now.isBefore(startDate) && now.isAfter(endDate));
     }
 }

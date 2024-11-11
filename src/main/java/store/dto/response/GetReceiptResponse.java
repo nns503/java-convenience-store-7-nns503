@@ -20,14 +20,14 @@ public record GetReceiptResponse(
     }
 
     private static AmountDTO getAmounts(Pos pos) {
-        return AmountDTO.of(pos.getAllAmount(), pos.getPurchaseQuantity(), pos.getPromotionAmount(), pos.getMembershipAmount(), pos.getResultAmount());
+        return AmountDTO.of(pos.getAllAmount(), pos.getPurchaseQuantity(), pos.getPromotionDiscount(), pos.getMembershipDiscount(), pos.getResultAmount());
     }
 
     private static List<PresentationProductDTO> getPresentationProducts(Pos pos) {
         return pos.getAllBonusProduct()
                 .stream()
                 .map(product ->
-                        PresentationProductDTO.of(product.getName(), product.getQuantity()))
+                        PresentationProductDTO.of(product.getName(), product.getBonusQuantity()))
                 .toList();
     }
 

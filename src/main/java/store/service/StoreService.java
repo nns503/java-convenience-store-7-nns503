@@ -37,13 +37,12 @@ public class StoreService {
     
     public ApplyPromotionResponse applyPromotion(){
         Pos pos = posContext.getPos();
-        //날짜검증추가
         while(pos.getApplyStockIndex() != -1){
             int index = pos.getApplyStockIndex();
             pos.moveApplyStockIndex();
             PosBuyingProduct buyingData = pos.getBuyingProduct(index);
             Product product = buyingData.getProduct();
-            if(product.isPromotion()){
+            if(product.isPromotion() && product.getPromotion().isPromotionPeriod()){
                 int bonusQuantity = product.getPromotion().getBonusQuantity();
                 int buyQuantity = product.getPromotion().getBuyQuantity();
                 int promotionQuantity = product.getPromotionQuantity();
@@ -69,7 +68,7 @@ public class StoreService {
             pos.moveLackStockIndex();
             PosBuyingProduct buyingData = pos.getBuyingProduct(index);
             Product product = buyingData.getProduct();
-            if(product.isPromotion()){
+            if(product.isPromotion() && product.getPromotion().isPromotionPeriod()){
                 int bonusQuantity = product.getPromotion().getBonusQuantity();
                 int buyQuantity = product.getPromotion().getBuyQuantity();
                 int promotionQuantity = product.getPromotionQuantity();
@@ -92,9 +91,9 @@ public class StoreService {
 
     public void calculateProduct() {
         Pos pos = posContext.getPos();
-        pos.sellProduct();
         pos.calculateAllAmount();
         pos.calculatePromotionAmount();
+        pos.sellProduct();
     }
 
     public void userMembership() {

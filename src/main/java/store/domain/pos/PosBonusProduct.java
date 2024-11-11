@@ -3,13 +3,13 @@ package store.domain.pos;
 import store.domain.product.Product;
 
 public class PosBonusProduct {
-    private String name;
-    private int quantity;
-    private Product product;
+    private final String name;
+    private final int bonusQuantity;
+    private final Product product;
 
     public PosBonusProduct(String name, int quantity, Product product) {
         this.name = name;
-        this.quantity = quantity;
+        this.bonusQuantity = quantity;
         this.product = product;
     }
 
@@ -17,8 +17,8 @@ public class PosBonusProduct {
         return name;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getBonusQuantity() {
+        return bonusQuantity;
     }
 
     public Product getProduct() {
