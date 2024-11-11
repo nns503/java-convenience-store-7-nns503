@@ -69,6 +69,7 @@ public class Product {
     }
 
     public void reduceQuantity(int reduceQuantity) {
+        checkPurchaseQuantity(reduceQuantity);
         if (validateNullPromotion(promotion)) {
             reduceQuantity = reducePromotionQuantity(reduceQuantity);
         }
@@ -76,12 +77,9 @@ public class Product {
     }
 
     private int reducePromotionQuantity(int reduceQuantity) {
-        promotionQuantity -= reduceQuantity;
-        if (promotionQuantity < 0) {
-            reduceQuantity = -promotionQuantity;
-            promotionQuantity = 0;
-        }
-        return reduceQuantity;
+        int reducedQuantity = Math.min(promotionQuantity, reduceQuantity);
+        promotionQuantity -= reducedQuantity;
+        return reduceQuantity - reducedQuantity;
     }
 
     private boolean validateNullPromotion(Promotion promotion) {
