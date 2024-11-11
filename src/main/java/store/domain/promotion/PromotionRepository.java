@@ -15,13 +15,13 @@ public enum PromotionRepository {
         promotions.put(promotion.name(), promotion);
     }
 
-    public boolean isPromotion(Promotion promotion) {
-        return promotions.containsKey(promotion.name());
-    }
-
     public Promotion getPromotionByName(String name) {
+        if(name.equals("null")) return null;
         Promotion promotion = promotions.get(name);
-        return promotions.get(name);
+        if (promotion == null) {
+            throw new IllegalArgumentException("존재하지 않는 프로모션입니다.");
+        }
+        return promotion;
     }
 
     public List<Promotion> getPromotions() {
