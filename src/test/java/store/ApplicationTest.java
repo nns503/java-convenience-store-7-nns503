@@ -18,12 +18,6 @@ class ApplicationTest extends NsTest {
     private final ProductRepository productRepository = ProductRepository.INSTANCE;
     private final PromotionRepository promotionRepository = PromotionRepository.INSTANCE;
 
-    @BeforeEach
-    void setUp() {
-        productRepository.clear();
-        promotionRepository.clear();
-    }
-
     @Test
     void 파일에_있는_상품_목록_출력() {
         assertSimpleTest(() -> {
