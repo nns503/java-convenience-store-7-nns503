@@ -1,5 +1,6 @@
 package store.domain.product;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import store.domain.promotion.Promotion;
 
 public class Product {
@@ -44,7 +45,7 @@ public class Product {
     }
 
     public boolean isPromotion() {
-        return validateNullPromotion(promotion) && promotion.isPromotionPeriod();
+        return validateNullPromotion(promotion) && promotion.isPromotionPeriod(DateTimes.now().toLocalDate());
     }
 
     public void reduceQuantity(int reduceQuantity) {
